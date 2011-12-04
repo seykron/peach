@@ -1,0 +1,11 @@
+{
+  "name" : "D3-support",
+  "version" : "v0.0.1",
+  "description" : "Domain Driven Design support framework.",
+  "main" : "./index",
+  "author" : {
+    "name" : "Matías Mirabelli",
+    "email" : "lumen.night@gmail.com"
+  }
+}
+
