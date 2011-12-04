@@ -75,13 +75,14 @@
           var viewOptions = {};
 
           modelAndView.wait(function() {
-            if (modelAndView.contentType === "application/json") {
-              viewOptions.json = modelAndView.model;
+            if (modelAndView.contentType === "application/json" ||
+              req.accepts("json")) {
+              res.send(JSON.stringify(modelAndView.model));
             } else {
-              viewOptions.locals = modelAndView.model
+              viewOptions.locals = modelAndView.model;
+              res.render(modelAndView.viewName, viewOptions);
             }
 
-            res.render(modelAndView.viewName, viewOptions);
             res.end();
           });
         });

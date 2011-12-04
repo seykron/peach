@@ -30,6 +30,16 @@
     });
   };
 
+  Object.extend(Model, {
+    /** Must be executed once all domain objects are already created.
+     */
+    setupRelationships : function() {
+      callbacks.each(function(callback) {
+        callback();
+      });
+    }
+  });
+
   // Configuration for development mode.
   Server.configure("dev", function() {
     // Extends the Model global object with sequelize.
@@ -53,15 +63,6 @@
       // similiar for sync: you can define this to always force sync for models
       sync: { force: true }
     }));
-    Object.extend(Model, {
-      /** Must be executed once all domain objects are already created.
-       */
-      setupRelationships : function() {
-        callbacks.each(function(callback) {
-          callback();
-        });
-      }
-    });
   });
 }());
 

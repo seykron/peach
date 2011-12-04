@@ -21,10 +21,10 @@
         this.regions.each(function(region) {
           chainer.add(App.domain.Region.create(region));
         });
-        chainer.run().on("success", callback)
-          .on("failure", function(errors) {
-            console.log(errors);
-          });
+        this.createOrganizations(chainer);
+        chainer.run().on("success", callback).on("failure", function(errors) {
+          console.log(errors);
+        });
       }.bind(this)));
     },
 
@@ -48,12 +48,32 @@
       return null;
     },
 
+    createOrganizations : function(chainer) {
+      var org = App.domain.Organization.create({
+        name : "UTPMP"
+      }).on("success", function() {
+        var action1 = App.domain.Action.create({
+          name : "Test",
+          description : "Test desc",
+          lat : 1,
+          lng : 3,
+          org : "UTPMP"
+        }).on("success", function() {
+          console.log("Action added");
+        }).on("failure", function(errors) {
+          console.log(errors);
+        });
+      });
+    },
+
     loadPopulationStats : function(callback) {
       var regions = this.regions;
 
       console.log("Loading population stats...");
 
       App.Junar.stream("CENSO-POBLA-RESUL-CENSO-2010", [], function(response) {
+        console.log("Data received.");
+
         var table = response.result;
         var region;
 

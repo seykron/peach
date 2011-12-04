@@ -44,16 +44,17 @@ app.configure(function(){
   app.use(app.router);
 });
 
+
 // General configuration.
-app.configure("dev", function(){
-  Model.sync({ force : true }).on("success", function() {
+app.configure("dev", function() {
+  setTimeout(function() {
     Model.setupRelationships();
     Model.sync({ force : true }).on("success", function() {
       require("./data." + process.env.NODE_ENV.toLowerCase() + ".js");
+    }).on("failure", function(error) {
+      console.log(error);
     });
-  }).on("failure", function(error) {
-    console.log(error);
-  });
+  }, 0);
 });
 
 module.exports = {
