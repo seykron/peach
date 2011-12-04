@@ -78,6 +78,8 @@
       console.log("Loading household survey stats...");
 
       App.Junar.stream("TASAS-DE-ENCUE-PERMA-DE", [], function(survey) {
+        console.log("Data received. Processing...")
+
         var surveyTable = survey.result;
 
         // Maps data from the homehold survey to the province.

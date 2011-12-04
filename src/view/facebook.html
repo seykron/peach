@@ -1,48 +1,43 @@
-Your name is: {{yourName}}
+  <div id="container">
+    <h1>JuntAR</h1>
+    <div id="main" role="main">
+    <div id="accordion">
+      <div id="situation">
+        <h2><a href="#">Conocé tu país</a></h2>
+        <div id="situation-container">
+          <h3>Selecciona la provincia en la que quieras colaborar</h3>
+          <div id="map_canvas"></div>
+          <div id="data-showroom" title="Provincia">
+            <table id="province-data" summary="Información provincia">
+            <tbody>
+            <tr>
+            <td>Poblacion</td>
+            <td>2.000.000</td>
+            </tr>
+            <tr>
+            <td>Pobreza + Indigencia</td>
+            <td>340.000</td>
+            </tr>
+            <tr>
+            <td>Viviendas precarias</td>
+            <td>1.230</td>
+            </tr>
+            </tbody>
+            </table>
 
-
-<div id="map_canvas" style="width: 300px;"></div>
-<script type="text/javascript">
-  google.setOnLoadCallback(function() {
-      var data = new google.visualization.DataTable();
-
-      data.addRows(27);
-      data.addColumn('string', 'City');
-      data.addColumn('number', 'Popularity');
-
-      {{#regions}}
-        data.setValue({{id}} - 1, 0, '{{code}}');
-        data.setValue({{id}} - 1, 1, 1000 * Math.random());
-      {{/regions}}
-
-      var options = {
-        width : 350,
-        resolution : "provinces"
-      };
-      options['region'] = 'AR';
-      options['colors'] = [0xFF8747, 0xFFB581, 0xc06000]; //orange colors
-
-      var container = document.getElementById('map_canvas');
-      var geomap = new google.visualization.GeoMap(container);
-      geomap.draw(data, options);
-  });
-  google.load('visualization', '1', {'packages': ['geochart']});
-
-  /*var australia = new google.maps.LatLng(-25, 133);
-
-  var map = new google.maps.Map(document.getElementById("map"), {
-    center: australia,
-    zoom: 4,
-    mapTypeId: google.maps.MapTypeId.ROADMAP,
-    styles: [{
-      elementType : "geometry",
-      featureType : "administrative.province",
-      stylers: [
-        { hue: "#00d4ff" },
-        { saturation: 60 },
-        { lightness: -20 },
-        { gamma: 1.51 }
-      ]
-    }]
-  });*/
-</script>
+            <button id="selectRegion">Seleccionar provincia</button>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div id="solution">
+        <h2><a href="#">Elegí cómo y donde ayudar</a></h2>
+        <div>Provincias</div>
+      </div>
+      <div id="action">
+        <h2><a href="#">Actuá</a></h2>
+        <div>Nam dui erat, auctor a, dignissim quis.</div>
+      </div>
+    </div>
+    </div>
+  </div> <!--! end of #container -->
