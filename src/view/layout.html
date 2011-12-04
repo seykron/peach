@@ -16,6 +16,14 @@
   </head>
 
   <body>
+    <div class="loading-notification">Cargando...</div>
     {{{yield}}}
+    <script type="text/javascript">
+    (function ($) {
+      $(function() {
+        Peach.initialize();
+      });
+    }(jQuery));
+    </script>
   </body>
 </html>

@@ -21,14 +21,17 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
   text-shadow: 0 1px 0 #fff;
   font-size: 22px;
+  padding: 5px;
   width: 150px;
+  height: 25px;
   text-align: center;
+  background: #e5e5e5;
+  border: 1px solid #bdbdbd;
 }
 
 .ui-accordion .ui-accordion-content {
   padding: 0;
 }
-
 .application-flow {
   width: 480px;
 }
@@ -57,8 +60,17 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 3px;
 }
 
-#selectRegion {
-  margin: 10px;
+button#selectRegion {
+  margin: 20px 10px 0 20px;
+  border-bottom-width: 3px;
+  font-weight: bold;
+  color: #131347;
+}
+
+a#backToMap {
+  display: inline-block;
+  margin-right: 20px;
+  color: #555;
 }
 
 /* Table that shows province data in a friendly way */
@@ -89,6 +101,15 @@ h1, h2, h3, h4, h5, h6 {
 
 #province-data tbody tr:hover td {
   color: #009;
+}
+
+div.action-list div h3.ui-accordion-header,
+div.action-list div div.ui-accordion-content {
+  border: none;
+}
+
+div.action-list div div.ui-accordion-content {
+  padding: 10px;
 }
 
 .backoffice .action-item {

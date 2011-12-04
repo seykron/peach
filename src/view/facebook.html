@@ -1,12 +1,11 @@
   <div id="container">
     <div id="main" role="main">
-    <div class="loading-notification">Cargando...</div>
     <div class="application-flow" style="display: none;">
       <div id="situation">
         <h2><a href="#">Conocé tu país</a></h2>
         <div id="situation-container">
           <h3>Indice de pobreza de la argentina</h3>
-          <p>Hace click en la provincia que te interese</p>
+          <p>Hace click en la provincia que te interese ayudar</p>
           <div id="map_canvas"></div>
           <div id="data-showroom" title="Provincia">
             <table id="province-data" summary="Información provincia">
@@ -26,25 +25,45 @@
             </tbody>
             </table>
 
-            <button id="selectRegion">Seleccionar provincia</button>
+            <button id="selectRegion">Seleccionar esta provincia</button>
+            <a href="#" id="backToMap">Volver al mapa</a>
           </div>
         </div>
         <div class="clearfix"></div>
       </div>
       <div id="solution">
         <h2><a href="#">Elegí cómo y donde ayudar</a></h2>
-        <div>Provincias</div>
+        <div>
+          <p>Selecciona una iniciativa para conocer más detalles.</p>
+          <div class="action-list">
+            {{#actions}}
+              <div id="action-item action-{{id}}" class="action-item action-{{id}}">
+                <h3><a href="#">{{name}}</a></h3>
+                <div>
+                  <div>{{description}}</div>
+                  <div class="action-map"></div>
+                </div>
+              </div>
+            {{/actions}}
+          </div>
+        </div>
       </div>
       <div id="action">
         <h2><a href="#">Actuá</a></h2>
-        <div>Nam dui erat, auctor a, dignissim quis.</div>
+        <div>
+          <p class="selectedAction">Estos son las formas en que podes colaborar con la iniciativa seleccionada</p>
+          <a href="#">Donar a paypal</a>
+          <a href="#">Mandar un email</a>
+        </div>
       </div>
     </div>
     </div>
   </div>
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="/asset/js/MapView.js"></script>
     <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="/asset/js/MapView.js"></script>
+    <script type="text/javascript" src="/asset/js/ActionMap.js"></script>
     <script type="text/javascript">
     (function ($) {
       MapView.regions = {};
@@ -58,10 +77,7 @@
           povertyHousing: "{{povertyHousing}}"
         };
       {{/regions}}
-      // Google's chats API attachs to the DOM ready event.
+
       MapView.initialize();
-      $(function() {
-        Peach.initialize();
-      });
     })(jQuery);
     </script>

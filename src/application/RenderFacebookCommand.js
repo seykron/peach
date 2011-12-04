@@ -7,7 +7,19 @@ App.route("/render", { method : "post" }, Class.create({
 
     App.domain.Region.findAll().on("success", function(regions) {
       mav.model.regions = regions;
-      mav.resume();
+      App.domain.Organization.find({
+        where: { name: "UTPMP" }
+      }).on("success", function(organization) {
+        mav.model.organization = organization;
+        App.domain.Action.findAll({
+          where : { org : "UTPMP" }
+        }).on("success", function(actions) {
+          mav.model.actions = actions;
+          mav.resume();
+        });
+      }).on("failure", function(errors) {
+        console.log(errors);
+      });
     });
 
     return mav.defer();
