@@ -45,6 +45,10 @@ App.domain.Action = Model(
     /** Region where the action occurs.
      */
     region : { type: Sequelize.STRING, allowNull: false },
+
+    /** Indicates whether this action receives donations or not.
+     */
+    donate : { type: Sequelize.BOOLEAN, allowNull: false, defaultValue : false }
   }
 });
 

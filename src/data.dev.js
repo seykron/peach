@@ -53,8 +53,13 @@
         name : "UTPMP"
       }).on("success", function() {
         App.domain.Action.create({
-          name : "Colecta Santiago del Estero",
-          description : "Test desc",
+          name : "Colecta Anual - Santiago del Estero",
+          description : "Este año se espera un récord de voluntarios en las" +
+          " calles: 10.000 jóvenes vestidos con pecheras distintivas y" +
+          " alcancías con forma de casa serán los encargados de realizar la" +
+          " colecta. Si querés ayudar a construir" +
+          " desde tu lugar podés colaborar ofreciendo una donación a voluntad" +
+          " mediante paypal.",
           lat : "-27.78811809326931",
           lng : "-64.25978409664913",
           org : "UTPMP",
@@ -62,7 +67,11 @@
         });
         App.domain.Action.create({
           name : "Relevamiento de Villas y Asentamientos",
-          description : "Test desc",
+          description : "Te invitamos a sumarte a este proyecto, en el que " +
+          "buscamos hacernos cargo de nuestro país y terminar con la" +
+          " injusticia existente. Para formar parte del equipo de" +
+          " voluntarios, completá tus datos y nosostros nos pondremos en " +
+          "contacto con vos invitándote a las próximas charlas informativas.",
           lat : "-34.678181740798664",
           lng : "-58.3687840642242",
           org : "UTPMP",

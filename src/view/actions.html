@@ -4,7 +4,10 @@
     <div class="action-item action-{{id}}">
       <h2>{{name}}</h2>
       <div>
-        <div>{{description}}</div>
+        <div class="description">
+          <span>{{description}}</span>
+          <label class="donate"><input type="checkbox" {{#donate}}selected="selected"{{/donate}} />Recibir donaciones</label>
+        </div>
         <div class="action-map"></div>
       </div>
     </div>
@@ -36,7 +39,8 @@
         
         actionMaps.push(new Peach.ActionMap({
           el : this,
-          action : actions[actionId]
+          action : actions[actionId],
+          view : "bo"
         }));
       });
       $(".actions").accordion({ header : "h2" });

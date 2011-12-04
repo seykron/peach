@@ -96,7 +96,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .backoffice .action-map {
-  width: 300px;
+  float: right;
   height: 300px;
+  width: 300px;
+}
+
+.backoffice .action-item .description {
+  float: left;
+  width: 150px;
+}
+
+.backoffice .action-item .description label.donate {
+  bottom: 13px;
+  left: 5px;
+  position: absolute;
 }
 
