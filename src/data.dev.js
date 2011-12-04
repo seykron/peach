@@ -77,17 +77,28 @@
         var table = response.result;
         var region;
 
-        for (var i = 3, count = 0; i <= table.rows; i += 3, count++) {
-          region = regions[count];
+        var normalize = function(row, col) {
+         return Number(table.getValue(row, col).getValue().replace(/[\,]/ig, ""));
+       };
 
-          if (region) {
-            Object.extend(region, {
-              housing : table.getValue(i, 2).getValue().replace(/[\,\.]/ig, ""),
-              households : table.getValue(i + 1, 2).getValue().replace(/[\,\.]/ig, ""),
-              population : table.getValue(i + 2, 2).getValue().replace(/[\,\.]/ig, "")
-            });
-          }
-        }
+       for (var i = 3, count = 0; i <= table.rows; i += 3, count++) {
+         region = regions[count];
+
+         if (region) {
+
+           Object.extend(region, {
+             housing : normalize(i, 2),
+             households : normalize(i + 1, 2),
+             population : normalize(i + 2, 2),
+             povertyHousing : normalize(i, 4) + normalize(i, 5) +
+                 normalize(i, 6),
+             povertyHouseholds : normalize(i + 1, 4) + normalize(i + 1, 5) +
+                 normalize(i + 1, 6),
+             povertyPopulation : normalize(i + 2, 4) + normalize(i + 2, 5) +
+                 normalize(i + 2, 6)
+           });
+         }
+       }
         callback();
       });
     },

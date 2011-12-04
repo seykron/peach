@@ -6,10 +6,8 @@
      * @constructor
      */
     initialize: function() {
-      $('#accordion').accordion({
-        header: 'h2',
-        autoHeight: false
-      });
+      $('.loading-notification').fadeOut();
+      $('.application-flow').accordion({ header: "h2" }).fadeIn();
     }
   }
 })(jQuery);

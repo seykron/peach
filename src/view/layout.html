@@ -4,26 +4,15 @@
     <meta charset="utf-8">
     <title>juntAR</title>
 
-    <link rel="stylesheet" href="asset/css/base.css">
-    <link type="text/css" href="asset/css/smoothness/jquery-ui-1.8.16.custom.css" rel="stylesheet" />
-    <link type="text/css" href="asset/css/peach.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/asset/css/base.css">
+    <link type="text/css" href="/asset/css/jquery-ui-theme.css" rel="stylesheet" />
+    <link type="text/css" href="/asset/css/peach.css" rel="stylesheet" />
+    <script type="text/javascript" src="/asset/js/libs/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="/asset/js/libs/jquery-ui-1.8.16.custom.min.js"></script>
+    <script type="text/javascript" src="/asset/js/peach.js"></script>
   </head>
 
   <body>
     {{{yield}}}
-    <!-- JavaScript at the bottom for fast page loading -->
-    <script type="text/javascript" src="asset/js/libs/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="asset/js/libs/jquery-ui-1.8.16.custom.min.js"></script>
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="asset/js/MapView.js"></script>
-    <script type="text/javascript" src="asset/js/peach.js"></script>
-    <script type="text/javascript">
-    (function ($) {
-      MapView.initialize();
-      $.ready(function() {
-        Peach.initialize();
-      });
-    })(jQuery);
-    </script>
   </body>
 </html>
