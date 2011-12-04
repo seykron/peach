@@ -1,32 +1,45 @@
-Your name is:
-{{#actions}}
-  {{org}}
-{{/actions}}
-<script type="text/javascript"
-    src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript">
-  function initialize() {
-    var myOptions = {
-      zoom: 4,
-      center: new google.maps.LatLng(-25.363882,131.044922),
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-    var map = new google.maps.Map(document.getElementById('map_canvas'),
-        myOptions);
+<div class="application-flow backoffice">
+  <div class="actions">
+  {{#actions}}
+    <div class="action-item action-{{id}}">
+      <h2>{{name}}</h2>
+      <div>
+        <div>{{description}}</div>
+        <div class="action-map"></div>
+      </div>
+    </div>
+  {{/actions}}
+  </div>
 
-    google.maps.event.addListener(map, 'click', function(e) {
-      placeMarker(e.latLng, map);
+  <script type="text/javascript" src="/asset/js/ActionMap.js"></script>
+  <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script type="text/javascript">
+    $(function() {
+      var actions = [];
+      {{#actions}}
+        actions[{{id}}] = {
+          id : {{id}},
+          name : "{{name}}",
+          description : "{{description}}",
+          lat : {{lat}},
+          lng : {{lng}}
+        };
+      {{/actions}}
+      
+      var actionMaps = [];
+
+      $(".action-item").each(function() {
+        var className = $(this).attr("class");
+        var actionId =
+          parseInt(className.substr(className.lastIndexOf("-") + 1), 10);
+        
+        actionMaps.push(new Peach.ActionMap({
+          el : this,
+          action : actions[actionId]
+        }));
+      });
+      $(".actions").accordion({ header : "h2" });
     });
-  }
-
-  function placeMarker(position, map) {
-    var marker = new google.maps.Marker({
-      position: position,
-      map: map
-    });
-    map.panTo(position);
-  }
-
-  google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-
+  </script>
+</div>

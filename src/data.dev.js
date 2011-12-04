@@ -52,16 +52,21 @@
       var org = App.domain.Organization.create({
         name : "UTPMP"
       }).on("success", function() {
-        var action1 = App.domain.Action.create({
-          name : "Test",
+        App.domain.Action.create({
+          name : "Colecta Santiago del Estero",
           description : "Test desc",
-          lat : 1,
-          lng : 3,
-          org : "UTPMP"
-        }).on("success", function() {
-          console.log("Action added");
-        }).on("failure", function(errors) {
-          console.log(errors);
+          lat : "-27.78811809326931",
+          lng : "-64.25978409664913",
+          org : "UTPMP",
+          region : "AR-G"
+        });
+        App.domain.Action.create({
+          name : "Relevamiento de Villas y Asentamientos",
+          description : "Test desc",
+          lat : "-34.678181740798664",
+          lng : "-58.3687840642242",
+          org : "UTPMP",
+          region : "AR-B"
         });
       });
     },
@@ -79,25 +84,25 @@
 
         var normalize = function(row, col) {
          return Number(table.getValue(row, col).getValue().replace(/[\,]/ig, ""));
-       };
+        };
 
-       for (var i = 3, count = 0; i <= table.rows; i += 3, count++) {
-         region = regions[count];
+        for (var i = 3, count = 0; i <= table.rows; i += 3, count++) {
+          region = regions[count];
 
-         if (region) {
+          if (region) {
 
-           Object.extend(region, {
-             housing : normalize(i, 2),
-             households : normalize(i + 1, 2),
-             population : normalize(i + 2, 2),
-             povertyHousing : normalize(i, 4) + normalize(i, 5) +
+            Object.extend(region, {
+              housing : normalize(i, 2),
+              households : normalize(i + 1, 2),
+              population : normalize(i + 2, 2),
+              povertyHousing : normalize(i, 4) + normalize(i, 5) +
                  normalize(i, 6),
-             povertyHouseholds : normalize(i + 1, 4) + normalize(i + 1, 5) +
+              povertyHouseholds : normalize(i + 1, 4) + normalize(i + 1, 5) +
                  normalize(i + 1, 6),
-             povertyPopulation : normalize(i + 2, 4) + normalize(i + 2, 5) +
+              povertyPopulation : normalize(i + 2, 4) + normalize(i + 2, 5) +
                  normalize(i + 2, 6)
-           });
-         }
+            });
+          }
        }
         callback();
       });

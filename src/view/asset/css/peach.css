@@ -1,13 +1,13 @@
 /**
  *
  */
-
 html, body {
   font-family: Helvetica, "Lucida Sans Unicode", "Lucida Grande", Arial, Sans-Serif;
   font-size: 12px;
   height: 100%;
   overflow: hidden;
   width: 480px;
+
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -90,3 +90,13 @@ h1, h2, h3, h4, h5, h6 {
 #province-data tbody tr:hover td {
   color: #009;
 }
+
+.backoffice .action-item {
+  position: relative;
+}
+
+.backoffice .action-map {
+  width: 300px;
+  height: 300px;
+}
+

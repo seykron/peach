@@ -40,7 +40,11 @@ App.domain.Action = Model(
     /** Organization name. Cannot be null.
      * @type String
      */
-    org : { type: Sequelize.STRING, allowNull: false, unique: true }
+    org : { type: Sequelize.STRING, allowNull: false },
+
+    /** Region where the action occurs.
+     */
+    region : { type: Sequelize.STRING, allowNull: false },
   }
 });
 
