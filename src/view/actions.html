@@ -23,7 +23,7 @@
           name : "{{name}}",
           description : "{{description}}",
           lat : {{lat}},
-          lng : {{lng}}
+          lng : {{lng}},
         };
       {{/actions}}
       
@@ -36,7 +36,8 @@
         
         actionMaps.push(new Peach.ActionMap({
           el : this,
-          action : actions[actionId]
+          action : actions[actionId],
+          view : "bo"
         }));
       });
       $(".actions").accordion({ header : "h2" });
