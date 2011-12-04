@@ -42,6 +42,7 @@
                 <div>
                   <div>{{description}}</div>
                   <div class="action-map"></div>
+                  <button class="selectAction">Seleccionar esta iniciativa</button>
                 </div>
               </div>
             {{/actions}}
@@ -52,8 +53,11 @@
         <h2><a href="#">Actuá</a></h2>
         <div>
           <p class="selectedAction">Estos son las formas en que podes colaborar con la iniciativa seleccionada</p>
-          <a href="#">Donar a paypal</a>
-          <a href="#">Mandar un email</a>
+          <a href="#" class="actionLink">Donar a paypal</a>
+          <a href="#" class="actionLink">Mandar un email</a>
+          <div class="thanksDialog" title="Actuar" style="display:none">
+            <p>Muchas gracias por tu ayuda!</p>
+          </div>
         </div>
       </div>
     </div>
@@ -66,6 +70,16 @@
     <script type="text/javascript" src="/asset/js/ActionMap.js"></script>
     <script type="text/javascript">
     (function ($) {
+     MapView.actions = [];
+      {{#actions}}
+        MapView.actions[{{id}}] = {
+          id : {{id}},
+          name : "{{name}}",
+          description : "{{description}}",
+          lat : {{lat}},
+          lng : {{lng}}
+        };
+      {{/actions}}
       MapView.regions = {};
       {{#regions}}
         MapView.regions["{{code}}"] = {

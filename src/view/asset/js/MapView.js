@@ -73,6 +73,7 @@
       $('button#selectRegion').button().click(MapView.useRegionHandler);
       $('a#backToMap').click(MapView.closeDataShowroomDialog);
     },
+
     closeDataShowroomDialog: function () {
       $('#data-showroom').dialog('close');
     },
@@ -80,6 +81,16 @@
     useRegionHandler: function (event) {
       MapView.closeDataShowroomDialog();
       $('.application-flow').accordion('activate', 1);
+      $('button.selectAction').button().click(MapView.goAction);
+    },
+
+    goAction:  function (event) {
+      $('.application-flow').accordion('activate', 2);
+      $('a.actionLink').button().click(MapView.dispatchLink);
+    },
+
+    dispatchLink:  function (event) {
+      $('.thanksDialog').dialog().show();
     }
   }
 })(jQuery);

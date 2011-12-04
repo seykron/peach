@@ -1,6 +1,7 @@
 /**
- *
+ * One CSS file to rule them all.
  */
+
 html, body {
   font-family: Helvetica, "Lucida Sans Unicode", "Lucida Grande", Arial, Sans-Serif;
   font-size: 12px;
@@ -108,8 +109,11 @@ div.action-list div div.ui-accordion-content {
   border: none;
 }
 
-div.action-list div div.ui-accordion-content {
+div#solution div.ui-accordion-content p,
+div.action-list div.ui-accordion-content,
+div#action div.ui-accordion-content {
   padding: 10px;
+  padding-top: 0px;
 }
 
 .backoffice .action-item {
