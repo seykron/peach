@@ -1,26 +1,27 @@
   <div id="container">
-    <h1>JuntAR</h1>
     <div id="main" role="main">
-    <div id="accordion">
+    <div class="loading-notification">Cargando...</div>
+    <div class="application-flow" style="display: none;">
       <div id="situation">
         <h2><a href="#">Conocé tu país</a></h2>
         <div id="situation-container">
-          <h3>Selecciona la provincia en la que quieras colaborar</h3>
+          <h3>Indice de pobreza de la argentina</h3>
+          <p>Hace click en la provincia que te interese</p>
           <div id="map_canvas"></div>
           <div id="data-showroom" title="Provincia">
             <table id="province-data" summary="Información provincia">
             <tbody>
             <tr>
             <td>Poblacion</td>
-            <td>2.000.000</td>
+            <td class="population"><!-- Will be filled from MapView --></td>
             </tr>
             <tr>
             <td>Pobreza + Indigencia</td>
-            <td>340.000</td>
+            <td class="povertyIndigenceRate"><!-- Will be filled from MapView --></td>
             </tr>
             <tr>
             <td>Viviendas precarias</td>
-            <td>1.230</td>
+            <td class="povertyHousing"><!-- Will be filled from MapView --></td>
             </tr>
             </tbody>
             </table>
@@ -40,4 +41,27 @@
       </div>
     </div>
     </div>
-  </div> <!--! end of #container -->
+  </div>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="/asset/js/MapView.js"></script>
+    <script src="//connect.facebook.net/en_US/all.js"></script>
+    <script type="text/javascript">
+    (function ($) {
+      MapView.regions = {};
+      {{#regions}}
+        MapView.regions["{{code}}"] = {
+          name: "{{name}}",
+          code: "{{code}}",
+          povertyRate: "{{povertyRate}}",
+          indigenceRate: "{{indigenceRate}}",
+          population: "{{population}}",
+          povertyHousing: "{{povertyHousing}}"
+        };
+      {{/regions}}
+      // Google's chats API attachs to the DOM ready event.
+      MapView.initialize();
+      $(function() {
+        Peach.initialize();
+      });
+    })(jQuery);
+    </script>

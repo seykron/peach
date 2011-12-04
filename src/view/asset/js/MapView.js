@@ -1,21 +1,6 @@
 (function ($) {
   // Namespace
   MapView = {
-
-    /**
-     * Map's mocked data.
-     */
-    data: [{
-      name: 'Buenos Aires', //Province name
-      code: 'AR-B', //Province code
-      population: 11000000, //Population total
-      housing: 50000000, //Number of houses in that provinces
-      households: 400000, //Amount of households
-      poorHouses: 30000, //Amount of poor houses
-      poorPopulationRate: 2.1, //Poor population rate
-      indigentPopulationRate: 0.2 //Indigent population rate
-    }],
-
     /**
      * Invokes the Google's geochart API and calls the drawRegionsMap when it's
      * loaded.
@@ -31,18 +16,28 @@
      */
     initializeMap: function () {
       var data = new google.visualization.DataTable();
+      
+      // Before set the values into the chart, we have to tell how many will be
+      var totalRows = 0;
+      $.each(MapView.regions, function(index, value) {
+        totalRows++;
+      });
+      data.addRows(totalRows);
+      data.addColumn('string', 'Provincia');
+      data.addColumn('number', 'Indice de pobreza');
 
-      data.addRows(2);
-      data.addColumn('string', 'City');
-      data.addColumn('number', 'Popularity');
-
-      data.setValue(0, 0, 'AR-Q');
-      data.setValue(0, 1, 100 * Math.random());
-      data.setValue(1, 0, 'AR-B');
-      data.setValue(1, 1, 100 * Math.random());
+      var i = 0;
+      $.each(MapView.regions, function (code, item) {
+        // The first element is the country, so let's skip it
+        if (i > 0) { 
+          data.setValue(i, 0, item.name);
+          data.setValue(i, 1, Number(item.povertyRate));
+        }
+        i++;
+      });
 
       var options = {
-        width: 500,
+        width: 475,
         resolution: 'provinces',
         region: 'AR'
       };
@@ -56,10 +51,13 @@
 
     /**
      * Populates and shows a fancy dialog when the user click into a province.
-     * @param {Object} region An object containing the province ISO code.
+     * @param {Object} event An object containing the property region, which
+     *     contains the province ISO code.
      */
-    provinceClickHandler: function (region) {
+    provinceClickHandler: function (event) {
+      var currentRegion = MapView.regions[event.region];
       $('#data-showroom').dialog({
+        title: currentRegion.name,
         height: 200,
         width: 400,
         modal: true,
@@ -68,6 +66,11 @@
         hide: 'drop'
       });
 
+      $('td.population').text(currentRegion.population);
+      var povertyIndigenceRate = Math.round((Number(currentRegion.povertyRate) 
+          + Number(currentRegion.indigenceRate)) * 100)/100;
+      $('td.povertyIndigenceRate').text(povertyIndigenceRate + '%');
+      $('td.povertyHousing').text(currentRegion.povertyHousing);
       $('button#selectRegion').button();
     }
   }

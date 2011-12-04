@@ -27,7 +27,7 @@ App.domain.Region = Model(
      */
     code : { type: Sequelize.STRING, allowNull: false },
 
-    /** Amount of people in this region.
+    /** Amount of people in the region.
      */
     population : { type: Sequelize.INTEGER, allowNull: false },
 
@@ -41,7 +41,16 @@ App.domain.Region = Model(
     povertyRate : { type: Sequelize.STRING, allowNull: true },
 
     /** Indigence rate in the region. */
-    indigenceRate : { type: Sequelize.STRING, allowNull: true }
+    indigenceRate : { type: Sequelize.STRING, allowNull: true },
+
+    /** Poor houses in the region. */
+    povertyHousing : { type: Sequelize.INTEGER, allowNull: false },
+
+    /** Poor households in the region. */
+    povertyHouseholds : { type: Sequelize.INTEGER, allowNull: false },
+
+    /** Poverty population in the region. */
+    povertyPopulation : { type: Sequelize.INTEGER, allowNull: false }
   }
 });
 
