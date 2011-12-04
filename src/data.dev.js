@@ -17,7 +17,7 @@
     fetch : function(callback) {
       var chainer = new Sequelize.Utils.QueryChainer();
 
-      this.loadSurveyStats(this.loadPopulationStats.bind(this, function() {
+      this.loadPopulationStats(this.loadSurveyStats.bind(this, function() {
         this.regions.each(function(region) {
           chainer.add(App.domain.Region.create(region));
         });
@@ -183,8 +183,6 @@
             if (region.hasOwnProperty("povertyRate")) {
               //TODO(matias.mirabelli): proportion isn't real, remember to check
               // the data before going live.
-              region.povertyRate += Number(povertyRate);
-              region.indigenceRate += Number(indigenceRate);
             } else {
               region.povertyRate = Number(povertyRate);
               region.indigenceRate = Number(indigenceRate);
@@ -207,14 +205,6 @@
     },
     {
       name : "Buenos Aires",
-      code : "AR-B"
-    },
-    {
-      name : "24 partidos del Gran Buenos Aires",
-      code : "AR-B"
-    },
-    {
-      name : "Interior de la provincia de Buenos Aires",
       code : "AR-B"
     },
     {
