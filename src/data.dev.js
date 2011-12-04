@@ -1,114 +1,4 @@
 (function() {
-  var regions = [
-    {
-      name : "Total del país",
-      code : "AR"
-    },
-    {
-      name : "Ciudad Autónoma de Buenos Aires",
-      code : "AR-C"
-    },
-    {
-      name : "Buenos Aires",
-      code : "AR-B"
-    },
-    {
-      name : "24 partidos del Gran Buenos Aires",
-      code : "AR-B"
-    },
-    {
-      name : "Interior de la provincia de Buenos Aires",
-      code : "AR-B"
-    },
-    {
-      name : "Catamarca",
-      code : "AR-K"
-    },
-    {
-      name : "Chaco",
-      code : "AR-H"
-    },
-    {
-      name : "Chubut",
-      code : "AR-U"
-    },
-    {
-      name : "Córdoba",
-      code : "AR-X"
-    },
-    {
-      name : "Corrientes",
-      code : "AR-W"
-    },
-    {
-      name : "Entre Ríos",
-      code : "AR-E"
-    },
-    {
-      name : "Formosa",
-      code : "AR-P"
-    },
-    {
-      name : "Jujuy",
-      code : "AR-Y"
-    },
-    {
-      name : "La Pampa",
-      code : "AR-L"
-    },
-    {
-      name : "La Rioja",
-      code : "AR-F"
-    },
-    {
-      name : "Mendoza",
-      code : "AR-M"
-    },
-    {
-      name : "Misiones",
-      code : "AR-N"
-    },
-    {
-      name : "Neuquén",
-      code : "AR-Q"
-    },
-    {
-      name : "Río Negro",
-      code : "AR-R"
-    },
-    {
-      name : "Salta",
-      code : "AR-A"
-    },
-    {
-      name : "San Juan",
-      code : "AR-J"
-    },
-    {
-      name : "San Luis",
-      code : "AR-D"
-    },
-    {
-      name : "Santa Cruz",
-      code : "AR-Z"
-    },
-    {
-      name : "Santa Fe",
-      code : "AR-S"
-    },
-    {
-      name : "Santiago del Estero",
-      code : "AR-G"
-    },
-    {
-      name : "Tierra del Fuego, Antártida e Islas del Atlántico Sur",
-      code : "AR-V"
-    },
-    {
-      name : "Tucumán",
-      code : "AR-T"
-    }
-  ];
 
   App.DataTable = Class.create({
     /** List of regions.
@@ -244,6 +134,8 @@
             var povertyRate = surveyTable.getValue(i, 5).getValue();
 
             if (region.hasOwnProperty("povertyRate")) {
+              //TODO(matias.mirabelli): proportion isn't real, remember to check
+              // the data before going live.
               region.povertyRate += Number(povertyRate);
               region.indigenceRate += Number(indigenceRate);
             } else {

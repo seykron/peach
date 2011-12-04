@@ -26,6 +26,7 @@ require("./database");
 // Includes application sources.
 App.io.requireDir(__dirname + "/domain/");
 App.io.requireDir(__dirname + "/application/");
+App.io.requireDir(__dirname + "/filter/");
 
 // Configures the rendering engine.
 app.set('view engine', 'mustache')
