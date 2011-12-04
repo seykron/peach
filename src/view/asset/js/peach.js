@@ -7,7 +7,14 @@
      */
     initialize: function() {
       $('.loading-notification').fadeOut();
-      $('.application-flow').accordion({ header: "h2" }).fadeIn();
+      $('.action-list').accordion({
+          header: "h3",
+          clearStyle: true,
+          active: false,
+          icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' } 
+      });
+      $('.application-flow').accordion({ header: "h2", clearStyle: true }).fadeIn();
+      
     }
   }
 })(jQuery);

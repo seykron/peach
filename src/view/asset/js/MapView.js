@@ -62,16 +62,24 @@
         width: 400,
         modal: true,
         position: [50, 100],
-        show: 'drop',
-        hide: 'drop'
+        show: 'drop'
       });
 
       $('td.population').text(currentRegion.population);
       var povertyIndigenceRate = Math.round((Number(currentRegion.povertyRate) 
-          + Number(currentRegion.indigenceRate)) * 100)/100;
+          + Number(currentRegion.indigenceRate)) * 100) / 100;
       $('td.povertyIndigenceRate').text(povertyIndigenceRate + '%');
       $('td.povertyHousing').text(currentRegion.povertyHousing);
-      $('button#selectRegion').button();
+      $('button#selectRegion').button().click(MapView.useRegionHandler);
+      $('a#backToMap').click(MapView.closeDataShowroomDialog);
+    },
+    closeDataShowroomDialog: function () {
+      $('#data-showroom').dialog('close');
+    },
+    
+    useRegionHandler: function (event) {
+      MapView.closeDataShowroomDialog();
+      $('.application-flow').accordion('activate', 1);
     }
   }
 })(jQuery);
