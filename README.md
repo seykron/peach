@@ -5,12 +5,12 @@ Requiriments
 ------------
 - NodeJS (download from http://nodejs.org/#download version 6.4 or above)
 - NPM (Node Package manager, just follow the instructions https://github.com/isaacs/npm/blob/master/README.md )
-- The following npm packages:
-- express (just do npm install moduleName)
+- The following npm packages (just do npm install packageName)
+	- express
 	- facebook-signed-request
 	- prototype
 	- sequelize
-	- stache/
+	- stache
   - junar
 
 
