@@ -83,6 +83,21 @@ App.ModelAndView = Class.create({
       var callback = this._callbacks[i];
       callback();
     }
+  },
+
+  /** Follows a redirect to the specified url.
+   *
+   * @param {String} target Url or route name to redirect the response to. If
+   *    it's null the existing redirect will be removed.
+   * @param {Object} [options] Options for the redirect. If the target is a
+   *    named route, the route url patterns will be replaced by the options
+   *    properties.
+   */
+  redirect : function(target, options) {
+    this.redirectTarget = target;
+    this.redirectOptions = options;
+
+    return this;
   }
 });
 

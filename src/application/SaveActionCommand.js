@@ -1,4 +1,6 @@
-App.route("/actions/save", { method : "post" }, Class.create({
+App.route("/actions/:organization/save", {
+  method : ["get", "post"]
+}, Class.create({
 
   /** Organization name; it's never null.
    * @type String
@@ -35,23 +37,57 @@ App.route("/actions/save", { method : "post" }, Class.create({
    */
   lng : null,
 
+  /** Region where the action applies to.
+   */
+  region : null,
+
   /** Saves an action.
    */
-  execute : function() {
-    var mav = new App.ModelAndView("actions.html");
+  execute : function(context) {
+    var mav;
 
-    App.domain.Action.find({
-      where: { id: this.id }
-    }).on("success", function(action) {
-      action.name = this.name;
-      action.description = this.description;
-      action.donate = this.donate || false;
-      action.lat = this.lat;
-      action.lng = this.lng;
-      action.save().on("success", function() {
+    if (context.isSubmit) {
+      mav = new App.ModelAndView("actions.html");
+
+      // Update
+      if (this.id) {
+        App.domain.Action.find({
+          where: { id: this.id }
+        }).on("success", function(action) {
+          action.name = this.name;
+          action.description = this.description;
+          action.donate = this.donate || false;
+          action.lat = this.lat;
+          action.lng = this.lng;
+          action.save().on("success", function() {
+            mav.resume();
+          });
+        }.bind(this));
+      } else {
+      // Create
+        var action = App.domain.Action.build({
+          name : this.name,
+          description : this.description,
+          org : this.organization,
+          donate : this.donate || false,
+          lat : this.lat,
+          lng : this.lng,
+          region : this.region
+        });
+        action.save().on("success", function() {
+          mav.resume();
+        });
+        return mav.redirect("listActions").defer();
+      }
+    } else {
+      // Create view.
+      mav = new App.ModelAndView("saveAction.html");
+
+      App.domain.Region.findAll().on("success", function(regions) {
+        mav.model.regions = regions;
         mav.resume();
       });
-    }.bind(this));
+    }
 
     return mav.defer();
   }

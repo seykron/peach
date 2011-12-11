@@ -1,4 +1,7 @@
-App.route("/actions/:organization/list", { method : ["get", "post"] }, Class.create({
+App.route("/actions/:organization/list", {
+  name : "listActions",
+  method : ["get", "post"]
+}, Class.create({
 
   /** Organization name; it's never null.
    * @type String

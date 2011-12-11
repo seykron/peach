@@ -1,5 +1,5 @@
 (function($) {
-  Peach.ActionMap = Backbone.View.extend({
+  Peach.Map = Backbone.View.extend({
     /** Current marker.
      * @type google.maps.Marker
      */
@@ -10,58 +10,56 @@
      */
     map : null,
 
+    /** Click event handlers.
+     * @type Function[]
+     */
+    clickHandlers : null,
+
     /** Initializes the action map.
      */
     initialize : function() {
-      var self = this;
-
-      this.action = this.options.action;
-      this.view = this.options.view;
-
+      this.clickHandlers = [];
       this.createMap();
-
-      var donateCheck = $(this.el).find("input[type=checkbox]");
-
-      donateCheck.click(function(event) {
-        self.donate = $(event.target).val();
-        self.save();
-      });
-      if (this.view !== "bo") {
-        donateCheck.attr("disabled", "disabled");
-      } else {
-        donateCheck.removeAttr("disabled");
-      }
-    },
-
-    /** Saves this action.
-     */
-    save : function() {
-      if (this.view === "bo") {
-        $.post("/actions/save", this.action, function(result) {
-          console.log(result);
-        }).error(function(result) {
-          alert("No se pudo guardar la acción.")
-        });
-      }
     },
 
     /** Creates the map for this action.
      */
     createMap : function() {
       var self = this;
-      var position = new google.maps.LatLng(this.action.lat, this.action.lng);
       var options = {
         zoom: 5,
-        center: position,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
-      this.map = new google.maps.Map($(this.el).find(".action-map")[0], options);
+      if (this.options.position) {
+        options.center = new google.maps.LatLng(
+          this.options.position.lat, this.options.position.lng);
+      }
 
-      google.maps.event.addListener(this.map, 'click', function(e) {
-        self.placeMarker(e.latLng);
+      this.map = new google.maps.Map($(this.el)[0], options);
+
+      google.maps.event.addListener(this.map, 'click', function(event) {
+        if (self.options.markOnClick) {
+          self.placeMarker(event.latLng);
+        }
+        _.each(self.clickHandlers, function(handler) {
+          handler({
+            lat : event.latLng.lat(),
+            lng : event.latLng.lng()
+          });
+        });
       });
-      this.placeMarker(position);
+
+      if (options.center) {
+        this.placeMarker(options.center);
+      }
+    },
+
+    /** Registers an event handler for the click event.
+     */
+    click : function(callback) {
+      this.clickHandlers.push(callback);
+      return this;
     },
 
     /** Moves the marker to the specified position.
@@ -69,34 +67,30 @@
     placeMarker : function(position) {
       var marker = this.marker;
       var map = this.map;
-      var view = this.view;
 
       if (marker) {
-        if (view === "bo") {
-          marker.setMap(null);
-        } else {
-          return;
-        }
+        marker.setMap(null);
+      }
+
+      var title = "";
+
+      if (this.options.marker && this.options.marker.content) {
+        title = this.options.marker.content;
       }
 
       marker = new google.maps.Marker({
         position: position,
         map: map,
-        title : "Click para eliminar!"
+        title : title
       });
 
       google.maps.event.addListener(marker, 'click', function(event) {
-        if (view === "bo") {
-          marker.setMap(null);
-        }
+        marker.setMap(null);
       });
 
       map.panTo(position);
 
       this.marker = marker;
-      this.action.lat = position.lat();
-      this.action.lng = position.lng();
-      this.save();
     }
   });
 }(jQuery));

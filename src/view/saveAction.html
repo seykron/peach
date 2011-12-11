@@ -1,0 +1,49 @@
+<div class="backoffice saveAction">
+  <form action="save" method="post">
+    <p>
+      <label>Nombre: <input type="text" name="name" /></label>
+    </p>
+    <p>
+      <label>Descripción: <textarea name="description"></textarea></label>
+    </p>
+    <p>
+      <label>
+        <select name="region">
+        {{#regions}}
+          <option value="{{code}}">{{name}}</option>
+        {{/regions}}
+        </select>
+      </label>
+    </p>
+    <p>
+      <label>Aceptar Donaciones: <input type="checkbox" name="donate" value="true" /></label>
+    </p>
+    <p>
+      <button>Crear!</button>
+    </p>
+    <p class="action-map"><!-- --></p>
+    <input type="hidden" name="lat" value="-35.48938023247539" />
+    <input type="hidden" name="lng" value="-59.55557572262569" />
+  </form>
+  <script type="text/javascript" src="/asset/js/ActionMap.js"></script>
+  <script type="text/javascript"
+      src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script type="text/javascript">
+  (function($) {
+    var map = new Peach.Map({
+      el : $(".action-map")[0],
+      markOnClick : true,
+      marker : {
+        content : "Click para eliminar!"
+      },
+      position : {
+        lat : -35.48938023247539,
+        lng : -59.55557572262569
+      }
+    }).click(function(event) {
+      $("input[name=lat]").val(event.lat);
+      $("input[name=lng]").val(event.lng);
+    });
+  }(jQuery));
+  </script>
+</div>

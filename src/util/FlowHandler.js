@@ -4,6 +4,11 @@
    */
   var filters = [];
 
+  /** Mapping of named routes. A named route can be referenced by any command.
+   * @type Object[String => Object]
+   */
+  var namedRoutes = {};
+
   /** Executes the filter chain and invokes the request handler after filters
    * execution.
    *
@@ -52,11 +57,22 @@
         method = [method];
       }
 
+      // Checks whether this is a named route.
+      if (options.name) {
+        namedRoutes[options.name] = {
+          url : url,
+          options : options,
+          commandClass : commandClass
+        };
+      }
+
       method.each(function(verb) {
         var methodName = verb.toLowerCase();
 
         if (typeof Server[methodName] === "function") {
           Server[methodName](url, function(req, res) {
+            req.method = methodName;
+
             // Handles the request after the filters.
             doFilter(req, res, options, function() {
               this.handleRequest(req, res, options, commandClass);
@@ -94,16 +110,38 @@
         }
       }
 
-      var modelAndView = command.execute();
+      var modelAndView = command.execute({
+        isSubmit : (req.method === "post")
+      });
+
       var viewOptions = {};
 
       modelAndView.wait(function() {
-        if (modelAndView.contentType === "application/json" ||
-          req.accepts("json")) {
-          res.send(JSON.stringify(modelAndView.model));
+        if (modelAndView.redirectTarget) {
+          var target = modelAndView.redirectTarget;
+          var route = namedRoutes[target];
+
+          if (namedRoutes.hasOwnProperty(target)) {
+            Object.extend(params, modelAndView.redirectOptions || {});
+
+            target = route.url;
+
+            for (var property in params) {
+              if (params.hasOwnProperty(property)) {
+                target = target.replace(":" + property, params[property]);
+              }
+            }
+          }
+
+          res.redirect(target);
         } else {
-          viewOptions.locals = modelAndView.model;
-          res.render(modelAndView.viewName, viewOptions);
+          if (modelAndView.contentType === "application/json" ||
+            req.accepts("json")) {
+            res.send(JSON.stringify(modelAndView.model));
+          } else {
+            viewOptions.locals = modelAndView.model;
+            res.render(modelAndView.viewName, viewOptions);
+          }
         }
 
         res.end();

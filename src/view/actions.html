@@ -1,4 +1,5 @@
 <div class="application-flow backoffice">
+  <a href="save">Nueva Acción</a>
   <div class="actions">
   {{#actions}}
     <div class="action-item action-{{id}}">
@@ -12,6 +13,7 @@
   </div>
 
   <script type="text/javascript" src="/asset/js/ActionMap.js"></script>
+  <script type="text/javascript" src="/asset/js/ActionItem.js"></script>
   <script type="text/javascript"
       src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
   <script type="text/javascript">
@@ -34,10 +36,10 @@
         var actionId =
           parseInt(className.substr(className.lastIndexOf("-") + 1), 10);
 
-        actionMaps.push(new Peach.ActionMap({
+        actionMaps.push(new Peach.ActionItem({
           el : this,
           action : actions[actionId],
-          view : "bo"
+          readOnly : false
         }));
       });
       $(".actions").accordion({ header : "h2" });
