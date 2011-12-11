@@ -48,44 +48,65 @@
     route : function(url, options, commandClass) {
       var method = options.method || "get";
 
-      Server[method.toLowerCase()](url, function(req, res) {
-        // Handles the request after the filters.
-        doFilter(req, res, options, function() {
-          if (options.contentType && !req.is(options.contentType)) {
-            console.log("Request doesn't match required Content-Type: " +
-                options.contentType);
-            res.send(404);
-            return;
-          }
+      if (!Array.isArray(method)) {
+        method = [method];
+      }
 
-          var command = new commandClass(req, res);
-          var params = {};
+      method.each(function(verb) {
+        var methodName = verb.toLowerCase();
 
-          Object.extend(params, req.params);
-          Object.extend(params, req.query);
-          Object.extend(params, req.body);
+        if (typeof Server[methodName] === "function") {
+          Server[methodName](url, function(req, res) {
+            // Handles the request after the filters.
+            doFilter(req, res, options, function() {
+              this.handleRequest(req, res, options, commandClass);
+            }.bind(this));
+          }.bind(this));
+        }
+      }, this);
+    },
 
-          for (var name in params) {
-            if (params.hasOwnProperty(name)) {
-              command[name] = params[name];
-            }
-          }
+    /** Handles a single request.
+     *
+     * @param {Object} res HTTP request. Cannot be null.
+     * @param {Object} res HTTP response. Cannot be null.
+     * @param {Object} options Command options. Cannot be null.
+     * @param {Function} commandClass Command to instantiate. Cannot be null.
+     */
+    handleRequest : function(req, res, options, commandClass) {
+      if (options.contentType && !req.is(options.contentType)) {
+        console.log("Request doesn't match required Content-Type: " +
+            options.contentType);
+        res.send(404);
+        return;
+      }
 
-          var modelAndView = command.execute();
-          var viewOptions = {};
+      var command = new commandClass(req, res);
+      var params = {};
 
-          modelAndView.wait(function() {
-            if (modelAndView.contentType === "application/json" ||
-              req.accepts("json")) {
-              res.send(JSON.stringify(modelAndView.model));
-            } else {
-              viewOptions.locals = modelAndView.model;
-              res.render(modelAndView.viewName, viewOptions);
-            }
+      Object.extend(params, req.params);
+      Object.extend(params, req.query);
+      Object.extend(params, req.body);
 
-            res.end();
-          });
-        });
+      for (var name in params) {
+        if (params.hasOwnProperty(name)) {
+          command[name] = params[name];
+        }
+      }
+
+      var modelAndView = command.execute();
+      var viewOptions = {};
+
+      modelAndView.wait(function() {
+        if (modelAndView.contentType === "application/json" ||
+          req.accepts("json")) {
+          res.send(JSON.stringify(modelAndView.model));
+        } else {
+          viewOptions.locals = modelAndView.model;
+          res.render(modelAndView.viewName, viewOptions);
+        }
+
+        res.end();
       });
     },
 

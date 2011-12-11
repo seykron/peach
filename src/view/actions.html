@@ -33,7 +33,7 @@
         var className = $(this).attr("class");
         var actionId =
           parseInt(className.substr(className.lastIndexOf("-") + 1), 10);
-        
+
         actionMaps.push(new Peach.ActionMap({
           el : this,
           action : actions[actionId],
