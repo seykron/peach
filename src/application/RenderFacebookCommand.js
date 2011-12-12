@@ -1,4 +1,4 @@
-App.route("/render", { method : "post" }, Class.create({
+App.route("/render", { method : "get" }, Class.create({
 
   /** Renders the application on facebook.
    */
