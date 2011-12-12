@@ -1,7 +1,7 @@
 Juntar (codename peach) is a libre-software Facebook application with the
 commitment to facilitate the process to give and receive donations.
 
-Requiriments
+Requirements
 ------------
 - NodeJS (download from http://nodejs.org/#download version 6.4 or above)
 - NPM (Node Package manager, just follow the instructions https://github.com/isaacs/npm/blob/master/README.md )
