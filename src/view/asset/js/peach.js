@@ -13,8 +13,10 @@
           active: false,
           icons: { 'header': 'ui-icon-plus', 'headerSelected': 'ui-icon-minus' } 
       });
-      $('.application-flow').accordion({ header: "h2", clearStyle: true }).fadeIn();
-      
+      $('.steps-accordion').accordion({
+        header: "h2",
+        clearStyle: true
+      }).fadeIn();
     }
   }
 })(jQuery);

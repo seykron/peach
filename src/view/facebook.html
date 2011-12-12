@@ -1,9 +1,9 @@
-  <div id="container">
-    <div id="main" role="main">
-    <div class="application-flow" style="display: none;">
-      <div id="situation">
+<div id="container">
+  <div id="main" role="main">
+    <ul class="steps-accordion" style="display: none;">
+      <li id="step-one">
         <h2><a href="#">Conocé tu país</a></h2>
-        <div id="situation-container">
+        <div class="container">
           <h3>Indice de pobreza de la argentina</h3>
           <p>Hace click en la provincia que te interese ayudar</p>
           <div id="map_canvas"></div>
@@ -26,30 +26,35 @@
             </table>
 
             <button id="selectRegion">Seleccionar esta provincia</button>
-            <a href="#" id="backToMap">Volver al mapa</a>
+            <a href="#" class="backToMap">Volver al mapa</a>
           </div>
         </div>
         <div class="clearfix"></div>
-      </div>
-      <div id="solution">
+      </li>
+      <li id="step-two">
         <h2><a href="#">Elegí cómo y donde ayudar</a></h2>
         <div>
-          <p>Selecciona una iniciativa para conocer más detalles.</p>
+          <p class="pickAnAction hidden">Selecciona una iniciativa para conocer más detalles.</p>
+          <p class="noAction hidden">
+            <span>No hay iniciativas disponibles para la provincia elegida.</span>
+            <a href="#" class="backToMap">Por favor seleccione otra provincia.</a>
+          </p>
           <div class="action-list">
             {{#actions}}
-              <div id="action-item action-{{id}}" class="action-item action-{{id}}">
+              <div id="action-item action-{{id}}" data-region="{{region}}" class="action-item action-{{id}}">
                 <h3><a href="#">{{name}}</a></h3>
                 <div>
-                  <div>{{description}}</div>
+                  <p class="description">{{description}}</p>
                   <div class="action-map"></div>
+                  <div class="clearfix"></div>
                   <button class="selectAction">Seleccionar esta iniciativa</button>
                 </div>
               </div>
             {{/actions}}
           </div>
         </div>
-      </div>
-      <div id="action">
+      </li>
+      <li id="step-trhee">
         <h2><a href="#">Actuá</a></h2>
         <div>
           <p class="selectedAction">Estos son las formas en que podes colaborar con la iniciativa seleccionada</p>
@@ -59,39 +64,40 @@
             <p>Muchas gracias por tu ayuda!</p>
           </div>
         </div>
-      </div>
-    </div>
-    </div>
+      </li>
+    </ul>
   </div>
-    <script src="//connect.facebook.net/en_US/all.js"></script>
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-    <script type="text/javascript" src="/asset/js/MapView.js"></script>
-    <script type="text/javascript" src="/asset/js/ActionMap.js"></script>
-    <script type="text/javascript">
-    (function ($) {
-     MapView.actions = [];
-      {{#actions}}
-        MapView.actions[{{id}}] = {
-          id : {{id}},
-          name : "{{name}}",
-          description : "{{description}}",
-          lat : {{lat}},
-          lng : {{lng}}
-        };
-      {{/actions}}
-      MapView.regions = {};
-      {{#regions}}
-        MapView.regions["{{code}}"] = {
-          name: "{{name}}",
-          code: "{{code}}",
-          povertyRate: "{{povertyRate}}",
-          indigenceRate: "{{indigenceRate}}",
-          population: "{{population}}",
-          povertyHousing: "{{povertyHousing}}"
-        };
-      {{/regions}}
+</div>
+  <script src="//connect.facebook.net/en_US/all.js"></script>
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script type="text/javascript" src="/asset/js/MapView.js"></script>
+  <script type="text/javascript" src="/asset/js/ActionMap.js"></script>
+  <script type="text/javascript" src="/asset/js/ActionItem.js"></script>
+  <script type="text/javascript">
+  (function ($) {
+   MapView.actions = [];
+    {{#actions}}
+      MapView.actions[{{id}}] = {
+        id : {{id}},
+        name : "{{name}}",
+        description : "{{description}}",
+        lat : {{lat}},
+        lng : {{lng}}
+      };
+    {{/actions}}
+    MapView.regions = {};
+    {{#regions}}
+      MapView.regions["{{code}}"] = {
+        name: "{{name}}",
+        code: "{{code}}",
+        povertyRate: "{{povertyRate}}",
+        indigenceRate: "{{indigenceRate}}",
+        population: "{{population}}",
+        povertyHousing: "{{povertyHousing}}"
+      };
+    {{/regions}}
 
-      MapView.initialize();
-    })(jQuery);
-    </script>
+    MapView.initialize();
+  })(jQuery);
+  </script>

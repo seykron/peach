@@ -3,12 +3,13 @@
   MapView = {
     /**
      * Invokes the Google's geochart API and calls the drawRegionsMap when it's
-     * loaded.
+     * loaded. Also sets an event handler to .backToMap links.
      * @constructor
      */
     initialize: function () {
       google.load('visualization', '1', {'packages': ['geochart']});
       google.setOnLoadCallback(this.initializeMap);
+      $('a.backToMap').click(MapView.backToMap);
     },
 
     /**
@@ -70,26 +71,75 @@
           + Number(currentRegion.indigenceRate)) * 100) / 100;
       $('td.povertyIndigenceRate').text(povertyIndigenceRate + '%');
       $('td.povertyHousing').text(currentRegion.povertyHousing);
-      $('button#selectRegion').button().click(MapView.useRegionHandler);
-      $('a#backToMap').click(MapView.closeDataShowroomDialog);
+      $('button#selectRegion').button().bind('click', 
+        { region: event.region }, MapView.useRegionHandler);
     },
 
-    closeDataShowroomDialog: function () {
+    /**
+     * Closes the dialog showed after click in a province and shows the first
+     * step.
+     */
+    backToMap: function () {
       $('#data-showroom').dialog('close');
+      $('.steps-accordion').accordion('activate', 0);
     },
-    
+
+    /**
+     * Closes the province info dialog, shows the second step and assigns an
+     * event to the .selectAction button.
+     *
+     * @param {Event} event The .selectRegion's button event.
+     */
     useRegionHandler: function (event) {
-      MapView.closeDataShowroomDialog();
-      $('.application-flow').accordion('activate', 1);
+      MapView.backToMap();
+      $('.steps-accordion').accordion('activate', 1);
+      var actionMaps = [];
+      $(".action-item").each(function() {
+        if ($(this).data("region") == event.data.region) {
+          var className = $(this).attr("class");
+          var actionId =
+            parseInt(className.substr(className.lastIndexOf("-") + 1), 10);
+
+          actionMaps.push(new Peach.ActionItem({
+            el : this,
+            action : MapView.actions[actionId],
+            view : "fb"
+          }));
+          $(this).show();
+        } else {
+          $(this).hide();
+        }
+      });
+      
+      if ($(".action-list .action-item:visible").size() === 0) {
+        $(".pickAnAction").addClass("hidden");
+        $(".noAction").removeClass("hidden");
+      } else {
+        $(".pickAnAction").removeClass("hidden");
+        $(".noAction").addClass("hidden");
+      }
+
+      $(".actions").accordion({ header : "h2" });
+
       $('button.selectAction').button().click(MapView.goAction);
     },
 
-    goAction:  function (event) {
-      $('.application-flow').accordion('activate', 2);
+    /**
+     * Shows the third step and assigns an event to the .actionLink link.
+     *
+     * @param {Event} event The .selectAction's button event.
+     */
+    goAction: function (event) {
+      $('.steps-accordion').accordion('activate', 2);
       $('a.actionLink').button().click(MapView.dispatchLink);
     },
 
-    dispatchLink:  function (event) {
+    /**
+     * Shows a thank you dialog.
+     *
+     * @param {Event} event The .actionLink's link event.
+     */
+    dispatchLink: function (event) {
       $('.thanksDialog').dialog().show();
     }
   }
